@@ -26,6 +26,7 @@ Set the proxy configuration for your web container in `docker-compose.web_extra.
 other service you run:
 
 ```yaml
+services:
   web:
     environment:
       - http_proxy=http://mitmproxy:8080/
@@ -39,6 +40,10 @@ You might have to add more IPs/domains to your `no_proxy` configuration, if you 
 traffic to go through `mitmproxy`.
 
 ### HTTPS
+
+> [!IMPORTANT]
+> If you have set the proxy configuration for HTTPS, it is necessary to run this hook before any
+connection is made.
 
 If you want to use HTTPS, you have to install the certificates on the web container, e.g. `config.mitmproxy.yaml`:
 
@@ -58,8 +63,18 @@ hooks:
     - exec-host: "ddev exec -s myservice sudo update-ca-certificates"
 ```
 
-**Attention:** if you have set the proxy configuration for HTTPS, it is necessary to run this hook before any
-connection is made.
+### Application
+
+You probably have to set up proxies for your PHP application or other services as well. A simple example would be:
+
+```php
+<?php
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_PROXY, "mitmproxy:8080");
+curl_setopt($ch, CURLOPT_URL, "https://github.com");
+curl_exec($ch);
+curl_close($ch);
+```
 
 ## Usage
 

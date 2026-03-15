@@ -33,6 +33,7 @@ setup() {
   ddev delete -Oy "${PROJNAME}" >/dev/null 2>&1 || true
   cd "${TESTDIR}"
   run ddev config --project-name="${PROJNAME}" --project-tld=ddev.site
+  cp -R "${DIR}/tests/testdata/"* "${TESTDIR}"
   assert_success
   run ddev start -y
   assert_success
@@ -47,9 +48,8 @@ health_checks() {
   # assert_output --partial "test_header"
 
   # Or check if some command gives expected output:
-  DDEV_DEBUG=true run ddev launch
+  run curl -sfI https://${PROJNAME}.ddev.site
   assert_success
-  assert_output --partial "FULLURL https://${PROJNAME}.ddev.site"
 }
 
 teardown() {

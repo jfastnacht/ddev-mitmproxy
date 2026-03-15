@@ -1,0 +1,4 @@
+hooks:
+  post-start:
+    - exec: "wget http://mitm.it/cert/pem -O /usr/local/share/ca-certificates/mitmproxy.crt"
+    - exec: "sudo update-ca-certificates"

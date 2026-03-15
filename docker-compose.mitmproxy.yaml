@@ -17,6 +17,10 @@ services:
       - ".:/mnt/ddev_config"
       - "ddev-global-cache:/mnt/ddev-global-cache"
       - mitmproxy:/home/mitmproxy/.mitmproxy
+    x-ddev:
+      # Can be multi-line block
+      describe-info: |
+        Pass: ${MITMPROXY_PASSWORD}
 
 volumes:
   mitmproxy:
