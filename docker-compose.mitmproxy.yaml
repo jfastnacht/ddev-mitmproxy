@@ -20,7 +20,7 @@ services:
     x-ddev:
       # Can be multi-line block
       describe-info: |
-        Pass: ${MITMPROXY_PASSWORD}
+        Pass: ${MITMPROXY_PASSWORD:-mitm}
 
 volumes:
   mitmproxy:
